@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<!--
+		angular的依赖驻入机制：安哥拉的内置的对象或者方法存在依赖关系，可以进行数据共享（控制器和服务之间数据可以数据交互）
+		优势：对象或者方法之间逻辑相互独立，但数据共享，实现模块化  数据分离
+		angular三种依赖驻入机制： value(),factory(),provider()
+		 1 value():提供简单数据供控制器使用
+		     app.value("服务名称"，{数据})  服务名称可以加$也可不加
+		 2 factory():用来返回数据和方法提供给控制器，实现数据和逻辑分离
+		     app.factory("服务名称"，function(){   将服务名称写在控制器的参数中去
+		     	//返回数据和方法
+		     	return {
+		     		
+		     	}
+		     })
+		     
+		 3 provider()：该方法依赖service(),此方法必须在service()中驻入
+		      	通过app.config()启动provider();
+		  	    语法结构：app.config(function($provider){
+		  	    	$provide.provider('服务名称'，function{
+		  	    		this.$get = function(){
+		  	    			return {
+		  	    				grtSum: function(){
+		  	    					
+		  	    				}
+		  	    			}
+		  	    		}
+		  	    	})
+		  	    })
+		  	    
+		  	 provider()配置流程：
+		  	      第一步  config()配置provider()-) 
+		  	      第二步  service()中注入provider()方法
+		  	      第三步  控制器中注入service()
+		  	    
+	-->
+	<body ng-app="myApp" ng-controller="myCtrl">
+		<script type="text/javascript">
+			var app = angular.module('myApp',[]);
+			
+			//第方法一种value  供在控制器中使用  控制器外使用
+//			app.value('myValue',{
+//				name:"David",
+//				age:20
+//			})
+			
+			//第二种方法factory 
+//			app.factory('myFactory',function(){
+//				var fruits = [
+//				 {id:'001',name:'apple',price:3.5},
+//				 {id:'002',name:'banana',price:2.5},
+//				 {id:'003',name:'orange',price:4.5},
+//				 {id:'004',name:'pear',price:5.5}
+//				];
+//				return {
+//					getName: function(index){
+//						return fruits[index].name;
+//					},
+//					getAll: function(){
+//						return fruits;
+//					}
+//				}
+//			})
+//			
+
+			//第三种方法 provider()
+			app.config(function($provide){
+				$provide.provider('myProvider',function(){
+					this.$get = function(){
+						return {
+							getSum: function(a,b){
+								return a+b;
+							}
+						}
+					}
+				})
+			})
+			
+			//service()中驻入provider()方法
+			app.service('myService',function(myProvider){
+				this.getService = function(){
+					return myProvider.getSum(3,8);
+				}
+			})
+			
+			app.controller('myCtrl',function($scope,myService){
+//				$scope.name = 'cat';
+//				$scope.say = function(){
+//					console.log($scope.name);  //在控制器中定义的
+//					console.log(myValue.age); //数据不再控制器中定义的  在外面写的
+//				}
+//				$scope.say();
+
+				//当调用myFactory服务对象时，就是调用里面的属性和方法
+//				 console.log(myFactory.getName(1))
+
+				//当调用provider()方法时候
+				console.log(myService.getService())
+
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<!--
+		angular的ajax
+		两种方法：GET和POST方法
+		启动ajax：将$http驻入到控制器中
+		
+		
+	-->
+	<body ng-app="myApp" ng-controller="myCtrl">
+		<div>{{result}}</div>
+		<script type="text/javascript">
+			var app = angular.module('myApp',[]);
+			app.controller('myCtrl',function($scope,$http){
+//				$http({
+//					method:'GET',
+//					url:'file/test.json'
+//				}).success(function(res){
+//					$scope.result = res;
+//				})
+				//POST方法
+				$http({
+					method:'POST',
+					url:'file/test.json'
+				}).success(function(res){
+					$scope.result = res;
+				})
+			})
+		</script>
+	</body>
+</html>

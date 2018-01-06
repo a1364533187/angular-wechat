@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="myCtrl1">
+			{{name+','+age+''+arr[1]}}
+			<p>{{address}}</p>
+			<p>{{message}}</p>
+		</div>
+
+		<div ng-controller="myCtrl2">
+			{{$root.name}} 
+		</div>
+		<script type="text/javascript">
+			//启动应用程序
+			var app = angular.module('myApp',[]);
+			app.controller('myCtrl1',function($scope){
+				$scope.name = 'Jhon';
+				$scope.age = 20;
+				$scope.arr = [1,2,3,4,5];
+				$scope.obj = {a:1,b:2,c:3};
+				$scope.say = function(){  //$scope创建方法
+					//功能 
+					$scope.message = $scope.name +'说他'+$scope.age+'岁了';
+				}
+				$scope.say();
+			})
+			app.controller('myCtrl2',function($scope,$rootScope){
+				$scope.name = 'myCtrl2';
+				$rootScope.name = "myCtrl1";
+				$rootScope.address = "天河区";
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/adaption1.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.container li{
+				position: relative;
+				width: 10.08rem;
+				height: 1.9rem;
+				border-top:0.01rem solid #e5e5e6;
+			}
+			.container li .imgbox{
+				float: left;
+				height: 1.9rem;
+				width: 2.2rem;
+				display: flex;
+    			justify-content: center;
+   		 		align-items: center;
+
+			}
+			.container li .imgbox img{
+				width:0.32rem;
+				height: 0.32rem;
+				border-radius: 50%;
+			}
+			.container li .textbox{
+				float: left;
+				height: .56rem;
+				width: 1.54rem;
+				padding-top: 0.14rem;
+				box-sizing: border-box;
+			}
+			.container li .textbox dt{
+				font-size: 0.41rem;
+				color: #7888a9;
+			}
+			.container li .textbox dd{
+				font-size: 0.34rem;
+				color: #999;
+				width: 6.96rem;
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space: nowrap;
+				
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul class="container">
+			<li ng-repeat="x in data1">
+				<div class="imgbox">
+					<img ng-src="{{x.face}}" />
+				</div>
+				<dl class="textbox">
+					<dt>{{x.name}}</dt>
+					<dd>{{x.lastText}}</dd>
+				</dl>
+				<div class="yjr">
+				</div>
+			</li>
+		</ul>
+	</body>
+
+</html>

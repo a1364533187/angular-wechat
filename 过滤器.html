@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<!--
+		angular过滤器：通过管道符"|"加过滤器实现数据刷选或者转换
+		currency:将数字转为美元符或者人民币格式{{num|currency}}
+		         转为人民币符格式：{{num|currency:"￥"}}
+		lowercase：将英文转为小写
+		uppercase：将英文转为大写
+		limitTo:截取自非常或者数组的个数（只能从头部或者尾部截取）
+				从头部截取3个长度的值 {{arr | limitTo :3}}
+				从尾部截取3个长度的值 {{arr | limitTo :-3}}
+		orderBy:将数组中的值排序      第二个参数    ：true 和 ：false  默认从小到大排序  将第二个参数改为true 时 则改为从大到小
+		用在指令里面 ng-repeat里面
+		   第一个 参数类型：字符串、数组、函数  orderBy会将该参数传递到angular的底层方法comparable中进行比较
+		            字符串：orderBy："key",此时的"key"被当做compareable方法的参数
+		            数组：orderBy：["key1","key2"] 依次按照数组中的key进行比较，如果第一个key的值都相同，比较第二个key，依次比较下去
+		            函数：orderBy：fn,此时将fn的 return返回值传递给comparable方法的参数
+		   
+		 filter:筛选匹配器   用在指令里面 ng-repeat里面
+		    从数组中筛选出匹配的项
+		    参数类型：字符串、数字、对象、函数 filter会将参数传递到angular的底层方法filter中去筛选
+		    字符串：filter: "str",筛选出属性值匹配字符串的数组项
+		   数字类型：5
+		  对象类型：{key:'条件'}，指定筛选的属性名
+		   
+	-->
+	<body ng-app="myApp" ng-controller="myCtrl">
+		<div>{{price | currency}}</div>
+		<div>{{price | currency:"￥"}}</div>
+		<div>{{address | lowercase}}</div>
+		<div>{{name | uppercase}}</div>
+		<ul>
+			<li ng-repeat="x in fruits | orderBy :'price' ：true">{{x.name}}</li>  
+			<!--比较三种水果的价格-->
+			<li ng-repear="x in fruits | orderBy :['peice1','price2'] :true">{{x.name}}</li>
+		</ul>
+		<div ng-repeat="x in fruits | orderBy :sortPrice:true">{{x.name}}</div>
+		<div ng-repeat="x in fruits | filter: '香'">{{x.name}}</div>
+		<div ng-repeat="x in fruits | filter: 5">{{x.name}}</div>
+		<div ng-repeat="x in fruits | filter: {name:'子'}">{{x.name}}</div>
+		<div ng-repeat="x in fruits | filter: filterPrice">{{x.name}}</div>
+		<script type="text/javascript">
+			var app = angular.module('myApp',[]);
+			app.controller('myCtrl',function($scope){
+				$scope.name = "helloo world";
+				$scope.address = "TIAN HE ZONE";
+				$scope.price = 100;
+				$scope.arr = [1,2,3,4,5]
+				$scope.fruits = [
+					{name:"香蕉",price1:2.5,price2:4},
+					{name:"橘子",price1:3,price2:5},
+					{name:"苹果",price1:6,price2:5.5}
+				];
+				$scope.sortPrice = function(obj){ //函数要return一个结果 就是这个对象
+					//此时的obj是x  fruits里面的每一个对象 来调用这个函数 用这个返回值 给底层的comparable方法
+					return obj.price2;    //如果要从大到小改为-obj.price2
+				}
+				$scope.filterPrice = function(obj){
+					//此时的obj是x  fruits里面的每一个对象 来调用这个函数 用这个返回值 给底层的filter方法
+					
+					return obj.price2>5       
+					//return obj.price2 == 5.5
+				}
+			})
+		</script>
+	</body>
+</html>

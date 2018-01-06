@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<!--
+		angular的特点
+		1、减少DOM操作  2、基于MVC设计模式，实现数据双向绑定
+		 MVC（Model View Controller)      implement（从后台数据库中提取数据） 给控制器Controller处理
+		   Model :模型层 ，指应用程序中的数据
+		   View ：视图层，指HTML网页
+		   Controller：控制层（器），指JS函数实现的功能 执行逻辑功能的函数
+		   MVC全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范，
+		   	用一种业务逻辑、数据、界面显示分离的方法组织代码，将业务逻辑聚集到一个部件里面，
+		   	在改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑。
+		   	MVC被独特的发展起来用于映射传统的输入、处理和输出功能在一个逻辑的图形化用户界面的结构中。
+		   	三层结构是什么，是展现层、应用层、数据访问层
+		   	
+		   	MVVM：双向绑定 Model-View and View-Model 
+		   	
+		  3 、内含丰富的功能模块，例如路由，服务，过滤器等
+		  4、能够自定义指令（属性） ng-model 
+		angular的劣势：
+		  1、代码库冗余，沉重
+		  2 表单验证功能相对薄弱，建议原生JS封装表单验证
+		  
+		使用方法：  ng--代表angular缩写
+		  1、首先通过script导入angular.min.js库
+		  2、使用ng-app指令定义一个应用程序，一个网页只能定义一个ng-app (放在body里面) <body ng-app="myApp"></body>
+		  注意：在未启动应用程序时，ng-app的值赋为空字符串
+
+
+
+		指令;
+		   ng-app:定义一个应用程序
+		   ng-model:将表单元素的数据绑定（值适用于表单 input slect textarea  双向的
+		   ng-bind:将应用程序的数据绑定到html元素上，不适用于到表单元素上
+		   ng-init:初始化应用程序数据
+		   ng-click:点击事件
+		   ng-src:图片src属性
+		   ng-repeat:循环遍历数组创建元素指令  相当于for循环
+		   ng-href：超链接url
+		   ng-include:网页中包含引入另一个网页 ng-include="要引入的网页的url路径（相对路径）"  单引号包含这个路径
+		   
+		   $index:返回当前元素的下标  结合ng-repeat使用  在函数中或者表达式中都可以用
+		   <div ng-repeat="x in arr" ng-click="divClick($index)">{{'$index'+ x}}</div>
+		   var app = angular.module('myApp',[]);
+		   app.controller('myCtrl',function($scope){
+		   	 $scope.arr = ['苹果','香蕉','橘子','菠萝'];
+		   	 $scope.divClick = function(index){
+		   	 	alert(index)
+		   	 }
+		   })
+		   
+		   ng-controller:定义一个控制器，一个HTML网页可以定义多个控制器  如果么有要求多个 就放在body里面
+		   控制器 作用域：每个控制器都有属于自己的作用域
+		 作用域的特点：当前控制器默认只能调用该作用域的数据
+		   <div ng-controller="myCtrl"></div>
+		   
+		   
+		 根作用域$rootScope:该对象定义的属性和方法为全局的，整个应用程序都可以用
+		 当$rootScope和$scope同时定义同一个变量时，以$scope的数据优先
+		 但是$root.属性名可以实现以$rootScope的属性值优先
+		   
+		 启动控制器：angular.module('myApp',[]).controller('myCtrl1',function(){})
+		 控制器的回调参数：$scope  作用：定义属性和方法（在作用域中）  相当于原型链
+		 备注:尽量不再使用ng-init初始化数据
+		注意：如果ng-init定义的是全局变量在body内（控制器之外）和$scope同时定义一个变量，以$scope为准 覆盖了
+		    如果ng-init和$scope在同一个控制器中初始化同样一个变量 以ng-init为准
+		    
+		
+		 
+		自定义指令：使用directive 方法自定义          自定义指令可以当做标签用
+		   结构：指令名遵循驼峰式命名，使用是用-拆开
+		    	自定义指令可以当做标签用
+	   		 <self-defined></self-defined>
+		                    自定义指令作为属性
+		     <div self-defined></div>
+		                    自定义指令作为类名 class
+		     <div class="self-defined"></div>
+		   
+		表达式：{[expression]},相当于ng-bind  优先使用{{}}    ng-bind优先
+		   注意：当ng-bind 和{{expression}}同时出现。ng-bind会覆盖{{}}中值
+		      ng-bind 是属性在标签内   {{}}在值的位置<div ng-bind=>{{}}</div>
+		angular表达式类型：数字，字符串，数组或对象等 
+		model的类型一般有
+		  数字： ng-init="name=111"    字符串： ng-init="name='John';add='天河区'"
+		 数组： ng-init="arr=[1,2,3,4]"  对象： ng-init="obj={a:1,b:2}"
+		 
+		{{}}表达式输出model：   可以拼接+
+		  数字：{{age}}
+		 字符串：{{name}}
+		数组：{{arr[index]}}
+		对象：{{obj.a}}
+		
+		angular与js表达式的不同  ：angular的表达式可以写在HTML的元素中
+		
+		
+		启动应用程序
+		angular.module('myAPP',[])  (参数1，参数2)		
+		参数1：ng-app的应用程序的名称   参数2：混合式app开发的应用程序名  默认 空数组
+		混合式开发：不同框架之间进行混合使用 例如 angular与ionic混合，此时module中的参数2为ionic
+	-->
+	<body ng-app="myApp" ng-init="name='David';age=20;picsrc='img/10251.jpg';arr=[picsrc='img/xh02.jpg',picsrc='img/xh03.jpg',picsrc='img/xh01.jpg',picsrc='img/10251.jpg',picsrc='img/10252.jpg',picsrc='img/10253.png']">
+		<input type='text' ng-model="age"/>
+		<div>{{age}}</div>
+		<div ng-bind="name"></div>
+	    <img ng-src="{{picsrc}}" />
+	    <ul>
+	    	<li>
+	    		<img ng-repeat="x in arr" ng-src="{{x}}" />
+	    	</li>
+	    </ul>
+	    <a ng-href="">百度首页</a>
+	    <self-defined></self-defined>
+		<div self-defined></div>
+		<div class="self-defined"></div>
+	    <script type="text/javascript">
+	    	var app = angular.module('myApp',[]); //启动应用程序
+	    	app.directive('selfDefined',function(){
+	    		return {
+	    			//模板
+	    			template:"<h3>这是我的自定义指令作为类名用</h3>"
+	    			//自定义指令限制使用条件（自定义指令只能当做标签 属性、类名其中一种）
+	    			restrict:'C' //只能用作Class名
+	    		}
+	    		return {
+	    			//模板
+	    			template:"<h3>这是我的自定义指令作为标签用</h3>"+"<img src='img/xh01.jpg'/>"
+	    			//自定义指令限制使用条件（自定义指令只能当做标签 属性、类名其中一种）
+	    			restrict:'E' //只能用作为标签用 element
+	    			
+	    		}
+	    		return {
+	    			//模板
+	    			template:"<h3>这是我的自定义指令作为属性用</h3>"
+	    			//自定义指令限制使用条件（自定义指令只能当做标签 属性、类名其中一种）
+	    			restrict:'A' //只能用做属性 attribute
+	    			}
+	    	})
+	    	
+	    </script>
+	</body>
+</html>

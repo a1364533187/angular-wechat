@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<!--
+		angular服务：angular的内置功能，这些服务被作为控制器的参数
+			$scope也称为angular的服务
+			$location:操作本地url  使用时把这个参数传到控制器回调函数的参数中
+				absUrl():获取完整的url路径
+				url():获取项目的路径#后面的值
+				protocol():获取当前url的协议
+				host():获取当前的主机名
+				port():获取当前的端口号
+				hash():获取当前的hash值  既可以设置也可以获取
+				search():获取或者设置参数的JSON的序列化格式
+			$timeout:一次性定时器  也要把这个参数传到控制器里面
+			$interval():间隔性定时器
+			清除定时器   $interval.cancel(timer) $timeout.cancel(timer)
+			
+			自定义服务;通过service方法自定义服务 ,自定义后的服务名需要传到控制器的参数中  
+			    与 面向对象创建构造函数的思想一致
+			    语法：app.service('服务名'，function(){
+			    	this.name = 1;
+			    	this.say = function(){
+			    		
+			    	}
+			    })
+	-->
+	<body ng-app="myApp" ng-controller="myCtrl">
+		<!--<div>{{myUrl}}</div>-->
+		<div>{{name}}</div>
+		<div>hgfhfhfdhf</div>
+		<script type="text/javascript">
+//			location.hash = "hello"
+			var app = angular.module('myApp',[]);
+			
+			//自定义服务
+			app.service('$sum',function(){
+				this.name = 'wang';
+				this.getSum = function(a,b){
+					return a+b;
+				}
+			})
+			
+			app.controller('myCtrl',function($scope,$location,$timeout,$interval,$sum){
+//				$scope.myUrl = decodeURI($location.absUrl());  //decodeURI解码
+//				$scope.myUrl = $location.url();
+//				$scope.myUrl = $location.protocol();
+//				$scope.myUrl = $location.host();
+//				$scope.myUrl = $location.port();
+//				$location.hash('yes');
+//				$scope.myUrl = $location.hash();
+//				$location.search('username','Jhon');
+//				$location.search({'username':'Jhon','pass':123});
+//				$scope.myUrl = $location.search();
+//				$scope.say = function(){
+//					console.log(1111)
+//				}
+////			$timeout($scope.say,1000)
+//				$timeout(function(){
+//					$scope.say();
+//				},1000)
+
+//				$scope.say = function(){
+//					console.log(22222)
+//				}
+////			$interval($scope.say,1000)
+//				$interval(function(){
+//					$scope.say();
+//				},1000)
+//				var timer = $interval($scope.say,1000)
+//
+//				var num = 1;
+//				$scope.say = function(){
+//					num ++;
+//					if(num>6){
+//						$interval.cancel(timer);
+//					}
+//					console.log(3333)
+//				}
+
+				console.log($sum.getSum(3,4));
+				$scope.name = $sum.name;//显示在元素中
+				console.log($sum.name);
+			})
+			
+		</script>
+	</body>
+</html>

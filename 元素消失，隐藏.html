@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			div{
+				width: 200px;
+				height: 200px;
+				background: lawngreen;
+			}
+		</style>
+	</head>
+	<!--
+		ng-show:当ng-show的表达式为true时，元素出现  display:block的原理   表达式也可以为条件 结果为true 或者false就可以
+		                    当ng-show的表达式为false时,元素消失 display:none的原理
+		ng-hide:当ng-show的表达式为true时，元素消失  display:none 的原理   表达式也可以为条件 结果为false 或者true就可以
+		                    当ng-show的表达式为false时,元素出现 display:block的原理
+		ng-if: 相当于ng-show  
+		     	当ng-if的表达式为true时，元素出现  remove的原理   表达式也可以为条件 结果为true 或者false就可以
+		                    当ng-if的表达式为false时,元素消失 remove的原理
+		两者区别: 消失或者出现的原理不同  一个是display  一个是remove
+	-->
+	<!--<div ng-show="false"></div>
+	<div ng-hide="5<2"></div>
+	<div ng-if="false"></div>-->
+	
+	<body ng-app="myApp" ng-controller="myCtrl">
+		<!--复选框的值绑定在ng-model中  当勾选了ng-model的值为true-->
+		<!--<input type="checkbox" ng-model="check"/>-->   
+		<!--<div ng-show="check">通过复选矿的状态控制div的状态</div>-->
+		
+		<button ng-click="btnClick()">点击消失出现</button>
+		   <!--定义一个按钮点击事件并且关联到div的状态-->
+           <!--用div的状态来关联两个元素-->
+		<div ng-show="state">通过按钮点击的状态控制div的状态</div>
+		
+		<script type="text/javascript">
+			var app = angular.module('myApp',[]);
+			
+			
+			//app自定义指令
+			app.controller("myCtrl",function($scope){
+				$scope.state = true; //先赋一个状态为出现 把它赋给div的ng-show的值 
+				$scope.btnClick = function(){
+					//取反的状态 一直在变  只有消失和出现 点击一下就换一次
+					$scope.state = !$scope.state
+				}
+				
+			})
+		</script>
+	</body>
+</html>

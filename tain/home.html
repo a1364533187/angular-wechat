@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/angular-route.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/adaption1.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			li{
+				list-style: none;
+			}
+			.header{
+				width: 10.08rem;
+				height: ;
+			}
+			.titimg{
+				border: none;
+				vertical-align: middle;
+			}
+			.title{
+				width: 14.08rem;
+				height: 1.48rem;
+				background: #393a3f;
+				font-size:.6rem ;
+				color: #ffffff;
+				text-indent: .44rem;
+				line-height: 1.48rem;
+			}
+			.title li{
+				float: left;
+			}
+			.title li:nth-of-type(2){
+				margin-left:4.65rem;
+			}
+			.title li:nth-of-type(3){
+				margin-left:.7rem;
+			}
+			.title li img{
+				padding-top: 0.02rem;
+				box-sizing: border-box;
+				float: left;
+				border: none;
+				height: 1.44rem;
+				vertical-align:top;
+			}
+			.footer li{
+				float: left;
+				width: 25%;
+				font-size: 0.28rem;
+				text-align: center;
+			}
+			.footer li img{
+				border: none;
+				width: 1.2rem;
+				margin: 0 auto;
+				vertical-align: bottom;
+			}
+			.footer li .pic1{
+				margin: .25rem 0 .27rem;
+			}
+			.footer li .pic2{
+				margin-bottom: 0.07rem;
+			}
+			.footer li .pic3{
+				margin: .1rem 0 .21rem;
+			}
+			a{
+				width: 1.21rem;
+				height: 1.5rem;
+				display: inline-block;
+				text-decoration: none;
+				color:black;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body ng-app="myApp">
+		<div class="header">
+			<img class="titimg" src="../img/dl.png"/>
+			<ul class="title">
+				<li>微信(228)</li>
+				<li><img src="../img/sr.png"/></li>
+				<li><img src="../img/jiah.png"/></li>
+			</ul>
+		</div>
+		<div ng-view></div>
+		<ul class="footer">
+			<li>
+				<a href="#/"><img class="pic1" src="../img/weChat.png"/>微信</a>
+			</li>
+			<li>
+				<a href="#/second"><img class="pic2" src="../img/addressB.png"/>通讯录</a>
+			</li>
+			<li>
+				<a href="#/thrid"><img class="pic3" src="../img/discovery.png"/>发现</a>
+			</li>
+			<li>
+				<a href="#/fourth"><img class="pic4" src="../img/mine.png"/>我</a>
+			</li>
+		</ul>
+		<script type="text/javascript">
+			var app = angular.module('myApp',['ngRoute']);//驻入路由模块 ngRoute
+			//配置路由参数
+			app.config(['$routeProvider',function($routeProvider){
+				//锚点关联
+				$routeProvider.when('/',{
+					templateUrl:'WeChat.html',//需要切换的页面 第一个页面
+					controller:'firstCtrl'   //手动在路由里面配置一个控制器
+				}).when('/second',{
+					templateUrl:'addressBook.html',//第二个页面
+					controller:'secondCtrl'
+				}).when('/thrid',{
+					templateUrl:'discovery.html',//第三个页面
+					controller:'thridCtrl'
+				}).when('/fourth',{
+					templateUrl:'mine.html',
+					controller:'fourthCtrl'
+				})
+			}]);
+			
+			
+			//启动控制器
+			app.controller('firstCtrl',function($scope,$rootScope,Chats1){
+				$scope.data1 = Chats1.all();
+				console.log($scope.data1 );
+				$scope.name =
+				
+			})
+			
+			app.controller('secondCtrl',function($scope,$rootScope){
+				$scope.title = "这是第二个子页面";
+				$rootScope.header = '第二页';
+				
+			})
+			
+			app.controller('thridCtrl',function($scope,$rootScope){
+				$scope.title = "这是第三个子页面";
+				$rootScope.header = '第三页';
+			})
+			
+			app.controller('fourthCtrl',function($scope,$rootScope){
+				$scope.title = "这是第三个子页面";
+				$rootScope.header = '第三页';
+			})
+		</script>
+		<script src="../js/services1.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

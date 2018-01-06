@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../js/angular.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/angular-route.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.header{
+				margin: 0 auto;
+				width: 700px;
+				height: 100px;
+				text-align: center;
+				line-height: 100px;
+				font-size: 28px;
+				color: gray;
+				background: yellowgreen;
+			}
+			ul{
+				margin: 0 auto;
+				width: 700px;
+				height: 60px;
+				padding: 20px 120px;
+				box-sizing: border-box;
+				list-style: none;
+				background: thistle;
+			}
+			ul li{
+				float: left;
+				width: 150px;
+				text-align: center;
+			}
+			a{
+				text-decoration: none;
+				color: mediumaquamarine;
+			}
+		</style>
+	</head>
+	<!--
+		路由：通过锚点链接实现app的单页面操作来进行页面切换
+		单页面：只在同一个页面切换模板（每一个子页面）
+		路由配置步骤：
+		    第一步：先配置锚点链接
+		   第二步：驻入路由模块
+		 第三步：通过ng-view引入切换页面<div ng-view></div>
+		 
+		 参数解析：
+		 $routeProvider:路由参数，驻入到config()中
+		 when():关联锚点链接
+		 when(参数1，参数2)
+		     参数1：页面的锚点名称
+		    参数2 ：对象{
+		    	templateUrl :切换的子页面路径
+		    	controller:为子页面分配的控制器
+		    }
+	-->
+	<body ng-app="myApp">
+		<div class="header">{{$root.header}}</div>
+		<div ng-view></div> 
+		<ul>
+			<!--#/后面的名称与页面名称无关-->
+			<li><a href="#/">第一页</a></li>  
+			<li><a href="#/second">第二页</a></li>
+			<li><a href="#/thrid">第三页</a></li>
+		</ul>
+		<script type="text/javascript">
+			var app = angular.module('myApp',['ngRoute']);//驻入路由模块 ngRoute
+			//配置路由参数
+			app.config(['$routeProvider',function($routeProvider){
+				//锚点关联
+				$routeProvider.when('/',{
+					templateUrl:'first.html',//需要切换的页面 第一个页面
+					controller:'firstCtrl'   //手动在路由里面配置一个控制器
+				}).when('/second',{
+					templateUrl:'second.html',//第二个页面
+					controller:'secondCtrl'
+				}).when('/thrid',{
+					templateUrl:'thrid.html',//第三个页面
+					controller:'thridCtrl'
+				})
+			}]);
+			
+			
+			//启动控制器
+			app.controller('firstCtrl',function($scope,$rootScope){
+				$scope.title = "这是第一个子页面";
+				$rootScope.header = '第一页';
+			})
+			
+			app.controller('secondCtrl',function($scope,$rootScope){
+				$scope.title = "这是第二个子页面";
+				$rootScope.header = '第二页';
+			})
+			
+			app.controller('thridCtrl',function($scope,$rootScope){
+				$scope.title = "这是第三个子页面";
+				$rootScope.header = '第三页';
+			})
+		</script>
+	</body>
+</html>
